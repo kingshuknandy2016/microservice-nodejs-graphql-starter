@@ -1,0 +1,209 @@
+openapi: 3.0.0
+info:
+  title: Microservice Typescript Template
+  description: Optional multiline or single-line description in [CommonMark](http://commonmark.org/help/) or HTML.
+  version: 0.1.9
+servers:
+  - url: /apis
+    description: Main Server
+tags:
+  - name: SignUp and Authentication
+  - name: Employees
+  - name: Users
+  
+paths:
+  /v1/auth/signUp:
+      post:
+        tags:
+          - SignUp and Authentication
+        summary: Register a User.
+        description: Register a user with Proper details.
+        requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserWithoutId'
+
+        responses:
+          "200": # status code
+            description: Request Processed Successfully
+            content:
+              application/json:
+                schema:
+                    $ref: '#/components/schemas/UserWithId'
+  /v1/auth/login:
+      post:
+        tags:
+          - SignUp and Authentication
+        summary: Login.
+        description: Login User.
+        requestBody:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  email:
+                    description: The Email of user
+                    type: string
+                    example: rama.sharma@gmail.com
+                  password:
+                    description: User Password
+                    type: string
+                    example: test@1234
+
+        responses:
+          "200": # status code
+            description: Request Processed Successfully
+            content:
+              application/json:
+                schema:
+                    $ref: '#/components/schemas/UserWithId'
+  /v1/employees/getEmployees:
+    get:
+      tags:
+        - Employees
+      summary: Returns a list of Employees.
+      description: Optional extended description in CommonMark or HTML.
+      responses:
+        "200": # status code
+          description: A JSON array of Employee names
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EmployeeWithId'
+  /v1/employees/setEmployee:
+    post:
+      tags:
+        - Employees
+      summary: Add a Employee.
+      description: Add a Employee with Proper details.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmployeeWithoutId'
+
+      responses:
+        "200": # status code
+          description: Request Processed Successfully
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/EmployeeWithId'
+  
+  /v1/users/getUsers:
+    get:
+      tags:
+        - Users
+      summary: Returns a list of users.
+      description: Optional extended description in CommonMark or HTML.
+      parameters:
+        - name: token
+          in: header
+          description: ''
+          required: false
+          schema:
+            type: string
+
+      responses:
+        "200": # status code
+          description: A JSON array of user names
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserWithId'
+  /v1/users/setUser:
+    post:
+      tags:
+        - Users
+      summary: Add a User.
+      description: Add a user with Proper details.
+      parameters:
+        - name: token
+          in: header
+          description: ''
+          required: false
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserWithoutId'
+
+      responses:
+        "200": # status code
+          description: Request Processed Successfully
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/UserWithId'
+  
+components:
+  schemas:
+    EmployeeWithoutId:
+      type: object
+      required:
+        - name
+        - age
+      properties:
+        name:
+          description: Name of Employee
+          type: string
+          example: Rama
+        age:
+          description: 'Age of Employee'
+          type: number
+          example: 37
+
+    EmployeeWithId:
+      allOf:
+        - $ref: '#/components/schemas/EmployeeWithoutId'
+        - type: object
+        - required:
+            - id
+        - properties:
+            id:
+              description: Id of Employee
+              type: number
+              example : 5
+    UserWithoutId:
+        type: object
+        required:
+          - name
+          - email
+          - password
+        properties:
+          name:
+            description: Name of User
+            type: string
+            example: Ram Sharma
+          email:
+            description: Email of User
+            type: string
+            example: rama.sharma@gmail.com
+          password:
+            description: Password
+            type: string
+            example: test@1234            
+    UserWithId:
+      allOf:
+        - $ref: '#/components/schemas/UserWithoutId'
+        - type: object
+        - required:
+            - id
+        - properties:
+            id:
+              description: Id of user
+              type: number
+              example : 5
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: token
+      in: header

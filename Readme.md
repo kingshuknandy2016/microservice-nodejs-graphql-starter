@@ -23,7 +23,7 @@ This project is a complete ***Backend Microservice Application Server*** build i
 
 Try it!! We are happy to hear your feedback or any kind of new features.
 
-### Features
+### ❯ Features
 
 - **Authentication** of the API is integrated using JWT
 - Strong **Password Encryption** using bcrypt
@@ -35,19 +35,18 @@ Try it!! We are happy to hear your feedback or any kind of new features.
 - Deployment Using Docker and Docker Compose
 
 ## ❯ Table of Contents
-
+https://github.com/kingshuknandy2016/microservice-nodejs-graphql-starter/tree/master#getting-started
 - [Getting Started](#-getting-started)
 - [Scripts and Tasks](#-scripts-and-tasks)
-- [Debugger in VSCode](#-debugger-in-vscode)
+- [Important URL](#-important-url)
 - [API Routes](#-api-routes)
 - [Project Structure](#-project-structure)
 - [Logging](#-logging)
-- [Event Dispatching](#-event-dispatching)
 - [Seeding](#-seeding)
-- [GraphQL](#-graph-q-l)
+- [GraphQL](#-graphql)
 - [Docker](#-docker)
+- [Docker Compose](#-docker-compose)
 - [Further Documentations](#-further-documentations)
-- [Related Projects](#-related-projects)
 - [License](#-license)
 
 ## Getting Started

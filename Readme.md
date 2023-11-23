@@ -35,7 +35,7 @@ Try it!! We are happy to hear your feedback or any kind of new features.
 - Deployment Using Docker and Docker Compose
 
 ## ❯ Table of Contents
-https://github.com/kingshuknandy2016/microservice-nodejs-graphql-starter/tree/master#getting-started
+
 - [Getting Started](#-getting-started)
 - [Scripts and Tasks](#-scripts-and-tasks)
 - [Important URL](#-important-url)

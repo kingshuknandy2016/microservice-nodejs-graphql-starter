@@ -8,7 +8,7 @@ import cors from "cors";
 import http from "http";
 import Debug from "debug";
 import { handleErrors } from "./middlewares/error-handler.middleware";
-import { PORT } from "./constants/global_constants";
+import { JWT_SECRET, PORT } from "./constants/global_constants";
 import { IndexRouter } from "./routes";
 import { Postgres } from "./dbServices";
 import logger from "./loggers/logger.winston";
@@ -59,7 +59,12 @@ export default class ServiceConfiguration {
           "/graphql",
           cors<cors.CorsRequest>(),
           express.json(),
-          expressMiddleware(apolloServer),
+          expressMiddleware(apolloServer, {
+            context: async ({ req }) => {
+              const token = req.headers.token || "";
+              return { token };
+            },
+          }),
         );
 
         // Swagger Express Middleware Setup

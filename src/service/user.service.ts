@@ -3,7 +3,7 @@ import User, { UserInterface } from "../models/user.model";
 
 export default class UserService {
   public async getUsers() {
-    const users: User[] = await User.findAll();
+    const users: User[] = await User.scope("withoutPassword").findAll();
     return users;
   }
 
@@ -17,8 +17,21 @@ export default class UserService {
     return await user.save();
   }
 
+  /**
+   * @description Should be used only by the login method and it contains password data
+   */
   public async findUserByEmail(email: string): Promise<User | null> {
     return await User.findOne({
+      where: {
+        email: email,
+      },
+    });
+  }
+
+  public async findUserByEmailWithoutPassword(
+    email: string,
+  ): Promise<User | null> {
+    return await User.scope("withoutPassword").findOne({
       where: {
         email: email,
       },

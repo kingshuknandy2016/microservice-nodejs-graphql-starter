@@ -6,10 +6,18 @@ import {
   JWT_SECRET,
   tokenExpirationInSeconds,
 } from "../../constants/global_constants";
+import logger from "../../loggers/logger.winston";
+import { generateToken, verifyToken } from "../../helpers/tokenGenerator";
 
 const userService = new UserService();
 
+/**
+ * @description Responsible for authentication
+ */
 export class AuthController {
+  /**
+   * @description User Sign Up
+   */
   public async signUp(req: Request, res: Response, next: NextFunction) {
     try {
       const { name, email, password } = req.body;
@@ -28,13 +36,7 @@ export class AuthController {
       });
 
       // Jwt Token Generation
-      const token = jwt.sign(
-        { email: newUser.email, password: newUser.password },
-        JWT_SECRET,
-        {
-          expiresIn: tokenExpirationInSeconds,
-        },
-      );
+      const token = generateToken(newUser);
       return res.status(200).json({
         success: true,
         message: "Successfully Inserted the User",
@@ -46,23 +48,22 @@ export class AuthController {
     }
   }
 
+  /**
+   *@description login method
+   * @param req
+   * @param res
+   * @param next
+   * @returns
+   */
   public async login(req: Request, res: Response, next: NextFunction) {
     try {
       const { email, password } = req.body;
-      // const hashed = await Password.toHash(password);
       const user = await userService.findUserByEmail(email);
       // If the user is found
       if (user) {
         const isPasswordMatch = await Password.compare(user.password, password);
         if (isPasswordMatch) {
-          // Jwt Token Generation
-          const token = jwt.sign(
-            { email: user.email, password: user.password },
-            JWT_SECRET,
-            {
-              expiresIn: tokenExpirationInSeconds,
-            },
-          );
+          const token = generateToken(user);
           return res.status(200).json({
             success: true,
             message: "Successfully Logged In",

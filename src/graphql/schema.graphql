@@ -1,4 +1,22 @@
+type LoginUserData{
+  name:String!
+  email:String!
+  token: String!
+}
+
+type UserInterface {
+  id: ID!
+  name: String!
+  email: String!
+  username: String
+  password: String!
+}
 type Query {
   hello: String
   helloTest:String
+  getAllUsers:[UserInterface]!
+}
+
+type Mutation {
+  login(email:String!,password:String!):LoginUserData!
 }

@@ -6,11 +6,14 @@ import {
   JWT_SECRET,
   tokenExpirationInSeconds,
 } from "../../constants/global_constants";
+import { UserTokenData, generateToken } from "../../helpers/tokenGenerator";
 
 const userService = new UserService();
 
 export class UserController {
   public async getUsers(req: Request, res: Response, next: NextFunction) {
+    const loggedUserDetails: UserTokenData = res.locals.user;
+    //Use the above details to implement role based access(RBAC)
     try {
       const data = await userService.getUsers();
       return res
@@ -55,14 +58,8 @@ export class UserController {
         password: hashed,
       });
 
-      // Jwt Token Generation
-      const token = jwt.sign(
-        { email: newUser.email, password: newUser.password },
-        JWT_SECRET,
-        {
-          expiresIn: tokenExpirationInSeconds,
-        },
-      );
+      // Generate Token
+      const token = generateToken(newUser);
       return res.status(200).json({
         success: true,
         message: "Successfully Inserted the User",
@@ -83,14 +80,7 @@ export class UserController {
       if (user) {
         const isPasswordMatch = await Password.compare(user.password, password);
         if (isPasswordMatch) {
-          // Jwt Token Generation
-          const token = jwt.sign(
-            { email: user.email, password: user.password },
-            JWT_SECRET,
-            {
-              expiresIn: tokenExpirationInSeconds,
-            },
-          );
+          const token = generateToken(user);
           return res.status(200).json({
             success: true,
             message: "Successfully Logged In",

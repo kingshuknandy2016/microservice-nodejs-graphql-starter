@@ -43,6 +43,7 @@ Try it!! We are happy to hear your feedback or any kind of new features.
 - [Project Structure](#-project-structure)
 - [Logging](#-logging)
 - [Seeding](#-seeding)
+- [Role based Access](#-role-based-access)
 - [GraphQL](#-graphql)
 - [Docker](#-docker)
 - [Docker Compose](#-docker-compose)
@@ -182,8 +183,32 @@ export default logger;
 
 Yet to be implemented
 
+## ❯ Role Based Access
+Yet to be implemented
+
 ## ❯ GraphQL
 For the GraphQL part we used the library [Apollo Server 4](https://www.apollographql.com/docs/apollo-server/schema/schema/) to build awesome GraphQL API's.
+
+First you need to login with username and password
+```gql
+  mutation SampleQuery {
+    login(email:"rama.sharma@gmail.com",password:"test@1234"){
+      token
+      email
+      name
+    }
+}
+
+```
+Then we need to pass this ***token*** as a header for every graphql call
+```gql
+query getAllTheUsers{
+  getAllUsers {
+    name
+    email
+  }
+}
+``` 
 
 ## ❯ Docker
 Here we will try to spin up two containers.

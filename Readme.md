@@ -23,6 +23,11 @@ This project is a complete ***Backend Microservice Application Server*** build i
 
 Try it!! We are happy to hear your feedback or any kind of new features.
 
+## ❯ Application Flow
+![Application Flow](./docs/images/express_app_flow.jpeg)
+
+
+
 ### ❯ Features
 
 - **Authentication** of the API is integrated using JWT
